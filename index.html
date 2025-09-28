@@ -54,15 +54,6 @@
             50% { background-position: 100% 50%; }
         }
         
-        .feature-card {
-            transition: all 0.4s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
-        }
-        
         .btn-glow {
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
             transition: all 0.3s ease;
@@ -73,25 +64,94 @@
             transform: translateY(-2px);
         }
         
-        .role-card {
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
+        /* Navigation animations */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
         }
         
-        .role-card:hover {
-            border-color: #764ba2;
-            transform: translateY(-5px);
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
         }
         
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
         }
         
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Problem cards color inversion */
+        .problem-card {
+            transition: all 0.5s ease;
+        }
+        
+        .problem-card:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-8px);
+        }
+        
+        .problem-card:hover .card-icon {
+            background: white !important;
+        }
+        
+        .problem-card:hover .card-icon i {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .problem-card:hover p {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        /* Image shine effect on border */
+        .image-border-container {
+            position: relative;
+            border-radius: 1rem;
+            padding: 4px;
+            background: transparent;
+            overflow: hidden;
+        }
+        
+        .image-border-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+            z-index: 1;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 150%; }
+        }
+        
+        .image-border-container img {
+            border-radius: 0.9rem;
+            position: relative;
+            z-index: 2;
         }
         
         /* Progress Bar Styles */
@@ -140,6 +200,7 @@
             flex: 1;
             opacity: 0.6;
             transition: all 0.5s ease;
+            padding: 0 1rem;
         }
         
         .progress-step.active {
@@ -147,51 +208,33 @@
         }
         
         .step-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 1.8rem;
-            border: 2px solid transparent;
+            font-size: 2.2rem;
             transition: all 0.4s ease;
+            color: #667eea;
         }
         
         .progress-step.active .step-icon {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            color: #764ba2;
             transform: scale(1.1);
         }
         
-        /* Image shine effect */
-        .image-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
+        /* Role cards */
+        .role-card {
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
         }
         
-        .image-shine {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: skewX(-25deg);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 150%; }
+        .role-card:hover {
+            border-color: #764ba2;
+            transform: translateY(-5px);
         }
         
         /* Receipt styling */
@@ -201,8 +244,7 @@
             padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            margin: 0 auto;
+            height: 100%;
         }
         
         .receipt-header {
@@ -219,18 +261,21 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        .receipt-row.highlight {
-            background: rgba(102, 126, 234, 0.1);
-            margin: 0 -2rem;
-            padding: 0.75rem 2rem;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
-        }
-        
         .receipt-row.total {
             font-weight: 600;
             font-size: 1.1rem;
             border-top: 2px solid rgba(255, 255, 255, 0.1);
             margin-top: 1rem;
+            padding-top: 1rem;
+        }
+        
+        .receipt-row.host-profit {
+            background: rgba(102, 126, 234, 0.1);
+            margin: 1rem -2rem -2rem -2rem;
+            padding: 1rem 2rem;
+            border-top: 2px solid rgba(102, 126, 234, 0.2);
+            font-size: 1.2rem;
+            font-weight: 700;
         }
         
         .receipt-label {
@@ -255,6 +300,18 @@
         .benefit-card:hover {
             transform: translateY(-5px);
         }
+        
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -269,10 +326,10 @@
             </div>
             
             <div class="hidden md:flex space-x-8">
-                <a href="#problem" class="text-gray-300 hover:text-white transition">The Problem</a>
-                <a href="#solution" class="text-gray-300 hover:text-white transition">The Solution</a>
-                <a href="#collaboration" class="text-gray-300 hover:text-white transition">Collaboration</a>
-                <a href="#waitlist" class="text-gray-300 hover:text-white transition">Join Waitlist</a>
+                <a href="#problem" class="nav-link text-gray-300">The Problem</a>
+                <a href="#solution" class="nav-link text-gray-300">The Solution</a>
+                <a href="#collaboration" class="nav-link text-gray-300">Collaboration</a>
+                <a href="#waitlist" class="nav-link text-gray-300">Join Waitlist</a>
             </div>
             
             <div class="flex space-x-4">
@@ -285,7 +342,7 @@
     <section class="min-h-screen flex items-center pt-32 pb-10 px-6">
         <div class="container mx-auto flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6">Stop Grinding. <span class="gradient-text">Start Hosting.</span></h1>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">Stop Grinding.<br><span class="gradient-text">Start Hosting.</span></h1>
                 <p class="text-xl md:text-2xl text-gray-300 mb-8">
                     Turn your most dedicated fans into lifelong patrons with exclusive, real-world experiences. Paradiiseo gives you the tools to create premium events that earn more than months of subscription churn.
                 </p>
@@ -296,11 +353,10 @@
                 </div>
             </div>
             <div class="md:w-1/2">
-                <div class="image-container">
+                <div class="image-border-container">
                     <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
                          alt="Creator hosting an exclusive experience" 
-                         class="rounded-2xl w-full h-auto">
-                    <div class="image-shine"></div>
+                         class="w-full h-auto">
                 </div>
             </div>
         </div>
@@ -315,48 +371,48 @@
             </p>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-sync-alt text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">The Endless Grind</h3>
                     <p class="text-gray-300">Non-stop content creation just to stay relevant</p>
                 </div>
                 
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-users text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">Shallow Exclusivity</h3>
                     <p class="text-gray-300">"Exclusive" content that thousands can access</p>
                 </div>
                 
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-exclamation-triangle text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">Leak Nightmare</h3>
                     <p class="text-gray-300">Constant rebranding and lost identity</p>
                 </div>
                 
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-table text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">Messy Collaborations</h3>
                     <p class="text-gray-300">Spreadsheet drama and payment arguments</p>
                 </div>
                 
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-ban text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">Platform Anxiety</h3>
                     <p class="text-gray-300">One algorithm change away from losing everything</p>
                 </div>
                 
-                <div class="feature-card glass-effect rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="problem-card glass-effect rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 purple-gradient rounded-full flex items-center justify-center mx-auto mb-4 card-icon">
                         <i class="fas fa-chart-line text-2xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2">Revenue Ceiling</h3>
@@ -370,22 +426,21 @@
     <section class="py-20 px-6">
         <div class="container mx-auto flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-                <div class="image-container">
+                <div class="image-border-container">
                     <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                          alt="Creator Alina" 
-                         class="rounded-2xl w-full h-auto object-cover" style="max-height: 500px;">
-                    <div class="image-shine"></div>
+                         class="w-full h-auto object-cover" style="max-height: 500px;">
+                </div>
+                <div class="text-center mt-6">
+                    <span class="text-purple-300 font-semibold">Alina, 26 - Miami</span>
                 </div>
             </div>
             <div class="md:w-1/2">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8 gradient-text">"I was creating content 24/7 but my fans wanted something real."</h2>
-                <div class="glass-effect rounded-2xl p-8 md:p-10 mb-6">
+                <div class="glass-effect rounded-2xl p-8 md:p-10">
                     <p class="text-lg text-gray-300">
                         "Hi, I'm Alina. By day I create content for my subscribers. By night, I answer DMs from fans offering hundreds for a coffee, a dinner, a real connection. They don't want another clip in their inbox - they want to be part of my story. Paradiiseo helped me turn those DMs into $30,000 retreats where I control exactly who attends and how the experience unfolds."
                     </p>
-                </div>
-                <div class="text-center md:text-left">
-                    <span class="text-purple-300 font-semibold">Alina, 26 - Miami</span>
                 </div>
             </div>
         </div>
@@ -399,9 +454,9 @@
                 Paradiiseo is the first platform built for creators to design, host, and monetize real-world experiences.
             </p>
             
-            <div class="glass-effect rounded-2xl p-8 max-w-5xl mx-auto mt-12">
+            <div class="glass-effect rounded-2xl p-8 max-w-6xl mx-auto mt-12">
                 <h3 class="text-2xl font-bold mb-4 text-center gradient-text">You Control Who Attends</h3>
-                <p class="text-gray-300 text-center mb-6">
+                <p class="text-gray-300 text-center mb-6 max-w-3xl mx-auto">
                     Vet every participant, set your standards, and ensure the experience matches your vision. No more random audiences - only the fans who truly appreciate your work.
                 </p>
                 
@@ -411,28 +466,28 @@
                         <div class="progress-fill" id="progressFill"></div>
                         <div class="progress-step" id="step1">
                             <div class="step-icon">
-                                <i class="fas fa-user-check text-white"></i>
+                                <i class="fas fa-user-check"></i>
                             </div>
                             <h4 class="font-semibold text-lg">Application Review</h4>
                             <p class="text-gray-400 mt-2">Vet every potential attendee before they can purchase</p>
                         </div>
                         <div class="progress-step" id="step2">
                             <div class="step-icon">
-                                <i class="fas fa-sliders-h text-white"></i>
+                                <i class="fas fa-sliders-h"></i>
                             </div>
                             <h4 class="font-semibold text-lg">Custom Criteria</h4>
                             <p class="text-gray-400 mt-2">Set requirements that match your brand values</p>
                         </div>
                         <div class="progress-step" id="step3">
                             <div class="step-icon">
-                                <i class="fas fa-gavel text-white"></i>
+                                <i class="fas fa-gavel"></i>
                             </div>
                             <h4 class="font-semibold text-lg">Final Approval Power</h4>
                             <p class="text-gray-400 mt-2">No one joins without your explicit approval</p>
                         </div>
                         <div class="progress-step" id="step4">
                             <div class="step-icon">
-                                <i class="fas fa-shield-alt text-white"></i>
+                                <i class="fas fa-shield-alt"></i>
                             </div>
                             <h4 class="font-semibold text-lg">Conduct Standards</h4>
                             <p class="text-gray-400 mt-2">Enforce rules that ensure everyone's comfort and safety</p>
@@ -502,51 +557,45 @@
             </div>
             
             <!-- Miami Retreat Example -->
-            <div class="glass-effect rounded-2xl p-8 max-w-4xl mx-auto mt-16">
-                <h3 class="text-2xl font-bold mb-6 text-center gradient-text">The Miami Wellness Retreat: A Real Example of Hassle-Free Premium Hosting</h3>
-                <p class="text-gray-300 text-center mb-8">
+            <div class="max-w-6xl mx-auto mt-16">
+                <h3 class="text-2xl font-bold mb-2 text-center gradient-text">The Miami Wellness Retreat: A Real Example of Hassle-Free Premium Hosting</h3>
+                <p class="text-gray-300 text-center mb-8 max-w-3xl mx-auto">
                     See how creators are hosting premium experiences that combine travel, content creation, and revenue - all without the usual hassles. Imagine hosting a 3-day luxury wellness retreat in Miami with 10 carefully vetted superfans.
                 </p>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <div class="receipt">
-                            <div class="receipt-header">
-                                <h4 class="text-xl font-bold gradient-text">Event Billing</h4>
-                            </div>
-                            <div class="receipt-row highlight">
-                                <span class="receipt-label">HOST (You)</span>
-                                <span class="receipt-value host">40% - $12,000</span>
-                            </div>
-                            <div class="receipt-row">
-                                <span class="receipt-label">HEADLINER</span>
-                                <span class="receipt-value">25% - $7,500</span>
-                            </div>
-                            <div class="receipt-row">
-                                <span class="receipt-label">CO-HOST</span>
-                                <span class="receipt-value">15% - $4,500</span>
-                            </div>
-                            <div class="receipt-row">
-                                <span class="receipt-label">CREW</span>
-                                <span class="receipt-value">10% - $3,000</span>
-                            </div>
-                            <div class="receipt-row">
-                                <span class="receipt-label font-semibold">EVENT COSTS</span>
-                                <span class="receipt-value">$5,000</span>
-                            </div>
-                            <div class="receipt-row">
-                                <span class="receipt-label font-semibold">TOTAL REVENUE (10 × $3,000)</span>
-                                <span class="receipt-value">$30,000</span>
-                            </div>
-                            <div class="receipt-row total">
-                                <span class="receipt-label">NET PROFIT AFTER COSTS</span>
-                                <span class="receipt-value host">$25,000</span>
-                            </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                    <div class="receipt">
+                        <div class="receipt-header">
+                            <h4 class="text-xl font-bold gradient-text">Revenue Breakdown</h4>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">TOTAL REVENUE (10 × $3,000)</span>
+                            <span class="receipt-value">$30,000</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">HEADLINER (25%)</span>
+                            <span class="receipt-value">-$7,500</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">CO-HOST (15%)</span>
+                            <span class="receipt-value">-$4,500</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">CREW (10%)</span>
+                            <span class="receipt-value">-$3,000</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">EVENT COSTS</span>
+                            <span class="receipt-value">-$5,000</span>
+                        </div>
+                        <div class="receipt-row host-profit">
+                            <span class="receipt-label">NET PROFIT FOR HOST (YOU)</span>
+                            <span class="receipt-value host">$10,000</span>
                         </div>
                     </div>
-                    <div>
+                    <div class="glass-effect rounded-2xl p-8">
                         <h4 class="font-semibold mb-4 text-lg">What You Get:</h4>
                         <ul class="space-y-3 text-gray-300">
-                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-3 mt-1"></i> <span>$12,000 host profit for one weekend (after all costs)</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-3 mt-1"></i> <span>$10,000 host profit for one weekend (after all costs)</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-3 mt-1"></i> <span>Replace bedroom content grinding with exotic destination backdrops</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-3 mt-1"></i> <span>Create premium content while earning money simultaneously</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-3 mt-1"></i> <span>Expanded reach to new audiences through collaborations</span></li>
@@ -579,29 +628,29 @@
             
             <div class="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-12">
                 <div class="benefit-card text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-earlybirds text-white text-2xl"></i>
+                    <div class="benefit-icon">
+                        <i class="fas fa-earlybirds text-white"></i>
                     </div>
                     <p class="font-semibold text-lg">Early Access</p>
                     <p class="text-white/80 text-sm mt-2">Be among the first to experience Paradiiseo</p>
                 </div>
                 <div class="benefit-card text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-eye text-white text-2xl"></i>
+                    <div class="benefit-icon">
+                        <i class="fas fa-eye text-white"></i>
                     </div>
                     <p class="font-semibold text-lg">First Look</p>
                     <p class="text-white/80 text-sm mt-2">Preview features before public release</p>
                 </div>
                 <div class="benefit-card text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-headset text-white text-2xl"></i>
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset text-white"></i>
                     </div>
                     <p class="font-semibold text-lg">Onboarding Support</p>
                     <p class="text-white/80 text-sm mt-2">Personal guidance to get you started</p>
                 </div>
                 <div class="benefit-card text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-star text-white text-2xl"></i>
+                    <div class="benefit-icon">
+                        <i class="fas fa-star text-white"></i>
                     </div>
                     <p class="font-semibold text-lg">Priority Access</p>
                     <p class="text-white/80 text-sm mt-2">Skip the line when we fully launch</p>
@@ -659,66 +708,37 @@
     </footer>
 
     <script>
-        // Scroll animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            fadeElements.forEach(el => fadeObserver.observe(el));
-            
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
+        // Progress bar animation
+        const progressSection = document.getElementById('solution');
+        const progressFill = document.getElementById('progressFill');
+        const steps = [
+            document.getElementById('step1'),
+            document.getElementById('step2'),
+            document.getElementById('step3'),
+            document.getElementById('step4')
+        ];
+        
+        let animationPlayed = false;
+        
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animationPlayed) {
+                    animationPlayed = true;
+                    
+                    // Animate progress bar
+                    progressFill.style.width = '100%';
+                    
+                    // Animate steps with delays
+                    steps.forEach((step, index) => {
+                        setTimeout(() => {
+                            step.classList.add('active');
+                        }, index * 600);
+                    });
+                }
             });
-            
-            // Progress bar animation
-            const progressSection = document.getElementById('solution');
-            const progressFill = document.getElementById('progressFill');
-            const steps = [
-                document.getElementById('step1'),
-                document.getElementById('step2'),
-                document.getElementById('step3'),
-                document.getElementById('step4')
-            ];
-            
-            let animationPlayed = false;
-            
-            const progressObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !animationPlayed) {
-                        animationPlayed = true;
-                        
-                        // Animate progress bar
-                        progressFill.style.width = '100%';
-                        
-                        // Animate steps with delays
-                        steps.forEach((step, index) => {
-                            setTimeout(() => {
-                                step.classList.add('active');
-                            }, index * 600);
-                        });
-                    }
-                });
-            }, { threshold: 0.5 });
-            
-            progressObserver.observe(progressSection);
-        });
+        }, { threshold: 0.5 });
+        
+        progressObserver.observe(progressSection);
     </script>
 </body>
 </html>
